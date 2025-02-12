@@ -1,45 +1,43 @@
+# Định nghĩa lớp Animal thể hiện 4 thuộc tính của OOP
+
+# 1. Encapsulation (Đóng gói)
+class Animal:
+    def __init__(self, name, species):
+        self.name = name        # Thuộc tính công khai
+        self.__species = species  # Thuộc tính riêng tư (Encapsulation)
+
+    def get_species(self):
+        return self.__species  # Getter để truy cập thuộc tính riêng tư
+
+# 2. Inheritance (Kế thừa)
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name, "Dog")  # Gọi constructor của lớp cha
+        self.breed = breed
+
+    # 3. Polymorphism (Đa hình)
+    def make_sound(self):
+        return "Woof! Woof!"
+
+# 4. Abstraction (Trừu tượng)
 from abc import ABC, abstractmethod
 
-
-# Abstraction & Inheritance
-class Animal(ABC):
-    def __init__(self, name): self.name = name
-
+class AnimalSound(ABC):
     @abstractmethod
-    def make_sound(self): pass
+    def make_sound(self):
+        pass
 
+class Cat(Animal, AnimalSound):
+    def __init__(self, name):
+        super().__init__(name, "Cat")
 
-class Dog(Animal):
-    def make_sound(self): return "Woof!"
+    def make_sound(self):
+        return "Meow! Meow!"
 
-
-class Cat(Animal):
-    def make_sound(self): return "Meow!"
-
-
-# Encapsulation
-class BankAccount:
-    def __init__(self, owner, balance):
-        self.owner = owner
-        self.__balance = balance
-
-    def deposit(self, amount):
-        if amount > 0: self.__balance += amount
-
-    def withdraw(self, amount):
-        if 0 < amount <= self.__balance: self.__balance -= amount
-
-    def get_balance(self):
-        return self.__balance
-
-
-# Testing
+# Chạy thử chương trình
 if __name__ == "__main__":
-    dog, cat = Dog("Buddy"), Cat("Whiskers")
-    print(f"{dog.name} says: {dog.make_sound()}")
-    print(f"{cat.name} says: {cat.make_sound()}")
+    dog = Dog("Buddy", "Golden Retriever")
+    cat = Cat("Whiskers")
 
-    account = BankAccount("Alice", 1000)
-    account.deposit(500)
-    account.withdraw(300)
-    print(f"Final balance: {account.get_balance()}")
+    print(f"{dog.name} is a {dog.get_species()} and makes sound: {dog.make_sound()}")
+    print(f"{cat.name} is a {cat.get_species()} and makes sound: {cat.make_sound()}")
